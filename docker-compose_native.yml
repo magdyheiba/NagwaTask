@@ -2,7 +2,7 @@
 # https://github.com/SeleniumHQ/docker-selenium
 # docker-compose -f docker-compose_native.yml up --scale chrome=4 --remove-orphans -d
 # add '-d' option for detached execution
-# run : run: mvn test -DexecutionAddress="localhost:4444" -DtargetOperatingSystem="Linux-64" -DmaximumPerformanceMode="true" -DtargetBrowserName="GoogleChrome" Dtest="Gmail_Testcases"
+# run : run: mvn test -DexecutionAddress="localhost:4444" -DtargetOperatingSystem="Linux-64" -DmaximumPerformanceMode="true" -DtargetBrowserName="GoogleChrome" Dtest="Gmail_Testcases.java"
 # docker-compose -f docker-compose_native.yml down --remove-orphans
 # http://localhost:4444/grid/console
 version: '3.7'
