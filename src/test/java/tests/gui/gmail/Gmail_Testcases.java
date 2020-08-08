@@ -1,4 +1,4 @@
-package tests.google.gmail;
+package tests.gui.gmail;
 
 import java.util.ArrayList;
 import org.openqa.selenium.WebDriver;
@@ -10,6 +10,9 @@ import com.google.common.Home;
 import com.shaft.gui.browser.BrowserActions;
 import com.shaft.gui.browser.BrowserFactory;
 import com.shaft.tools.io.ExcelFileManager;
+import com.shaft.validation.Assertions;
+import com.shaft.validation.Assertions.AssertionComparisonType;
+import com.shaft.validation.Assertions.AssertionType;
 
 import io.qameta.allure.Description;
 
@@ -25,6 +28,9 @@ public class Gmail_Testcases {
 	@Description("When I enter Gmail page, then user should login and be able to send an email")
 	public void sendAnEmail() {
 		new Home(driver).navigate().login(login).navigateToGmail().sendAnEmail(EmailData);
+		String SuccessMessage = new Home(driver).getSuccessMessage();
+		Assertions.assertEquals("Message sent.", SuccessMessage, AssertionComparisonType.CONTAINS,
+				AssertionType.POSITIVE);
 	}
 
 	@Test(description = "Gmail - Verify", dependsOnMethods = { "sendAnEmail" }, groups = { "gui" })

@@ -15,6 +15,7 @@ public class Home {
 	private By signIn_button = By.xpath("//a[text()='Sign in']");
 	private By email_input = By.xpath("//input[@type='email']");
 	private By password_input = By.xpath("//input[@type='password']");
+	private By header_text = By.xpath("//h1[@id='headingText']");
 	private By next_button = By.xpath("//span[text()='Next']");
 	private By gmail_button = By.xpath("//a[text()='Gmail']");
 	private By compose_button = By.xpath("//div[text()='Compose']");
@@ -23,12 +24,13 @@ public class Home {
 	private By messageBody_input = By.xpath("//div[@aria-label='Message Body']");
 	private By sendMessage_button = By.xpath("//div[contains(@aria-label,'Send')and contains(@data-tooltip,'Send')]");
 	private By sent_button = By.xpath("//a[text()='Sent']");
-	private By lastEmailSent_div = By.xpath("//div[@class='aeF']/div//table[@id=':1u']//tr[1]");
-	private By emailToName_text = By.xpath("//span[contains(.,'to ')]/span[@dir]");
-	private By emailTo_text = By.xpath("//a[contains(@href,'mailto')]");
-	private By emailBy_text = By.xpath("//span[@class='go']/span[1]");
+	private By lastEmailSent_div = By.xpath("//div[@class='aeF']//table[@id=':5r']/tbody/tr[1]");
+	private By showDetails_button = By.xpath("//div[contains(@data-tooltip,'Show details')]");
+	private By emailTo_text = By.xpath("//span[@class='gI']/span[@email]");
+	private By emailBy_text = By.xpath("//h3//span[@class='qu']//following-sibling::span[@class='go']");
 	private By subject_text = By.xpath("//h2[@class='hP']");
-	private By messageBody_text = By.xpath("//div[@id=':6e']/div[@dir='ltr']");
+	private By messageBody_text = By.xpath("//div[@class='a3s aXjCH ']/div[@dir]");
+	private By successMessage_text = By.xpath("//span[@class='bAq']");
 
 	// constructor
 	public Home(ThreadLocal<WebDriver> driver) {
@@ -41,6 +43,7 @@ public class Home {
 		ElementActions.click(driver, signIn_button);
 		ElementActions.type(driver, email_input, login[0]);
 		ElementActions.click(driver, next_button);
+		ElementActions.getText(driver, header_text);
 		ElementActions.type(driver, password_input, login[1]);
 		ElementActions.click(driver, next_button);
 		return this;
@@ -62,6 +65,13 @@ public class Home {
 		ElementActions.type(driver, messageBody_input, Email[2]);
 		ElementActions.click(driver, sendMessage_button);
 		return this;
+	}
+
+	// get Success Message method
+	public String getSuccessMessage() {
+		ElementActions.waitForTextToChange(driver, successMessage_text, "Sending...", 10);
+		String SuccessMessage = ElementActions.getText(driver, successMessage_text);
+		return SuccessMessage;
 	}
 
 	// navigate To Sent Tap method
@@ -86,9 +96,9 @@ public class Home {
 
 	public Home VerifyDataOfLastEmailSent(String[] Email) {
 		ReportManager.logDiscrete("Verifying The data of last email sent : ");
-		ElementActions.hover(driver, emailToName_text);
+		ElementActions.click(driver, showDetails_button);
 		Verifications.verifyElementAttribute(driver, emailTo_text, "text", Email[0]);
-		Verifications.verifyElementAttribute(driver, emailBy_text, "text", Email[1]);
+		Verifications.verifyElementAttribute(driver, emailBy_text, "text", "<"+Email[1]+">");
 		Verifications.verifyElementAttribute(driver, subject_text, "text", Email[2]);
 		Verifications.verifyElementAttribute(driver, messageBody_text, "text", Email[3]);
 		return this;
